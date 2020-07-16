@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="./js/clmtrackr.js"></script>
+    <title>Gaze Browser</title>
+</head>
+<body>
+    <video id="inputVideo" width="400" height="300" autoplay playsinline></video>
+
+      <script type="text/javascript">
+        const medias = {
+            audio : false,
+            video : true
+          };
+          const videoInput = document.getElementById("inputVideo");
+          const promise = navigator.mediaDevices.getUserMedia(medias);
+          var ctracker = new clm.tracker();
+          ctracker.init();
+          ctracker.start(videoInput);
+          promise.then(successCallback);
+          
+          function successCallback(stream) {
+            videoInput.srcObject = stream;
+          };
+          var cnt = 0;
+          function positionLoop() {
+            requestAnimationFrame(positionLoop);
+            var positions = ctracker.getCurrentPosition();
+            if(!positions) return;
+            cnt++;
+            if(cnt%50 != 0) return;
+            
+            var pos_24 = positions['24'];
+            var pos_26 = positions['26'];
+            console.log("-----");
+            console.log(pos_26[1] - pos_24[1])
+            console.log("-----");
+            // positions = [[x_0, y_0], [x_1,y_1], ... ]
+            // do something with the positions ...
+          }
+          positionLoop();
+      </script>
+</body>
+</html>
