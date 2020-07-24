@@ -8,7 +8,7 @@
 </head>
 <body>
     <video id="inputVideo" width="400" height="300" autoplay playsinline></video>
-
+    <canvas id="drawCanvas" width="400" height="300"></canvas>
       <script type="text/javascript">
         const medias = {
             audio : false,
@@ -32,15 +32,24 @@
             cnt++;
             if(cnt%50 != 0) return;
             
-            var pos_24 = positions['24'];
-            var pos_26 = positions['26'];
+            var pos_60 = positions['60'];
+            var pos_57 = positions['57'];
             console.log("-----");
-            console.log(pos_26[1] - pos_24[1])
+            console.log(pos_60[1] - pos_57[1])
             console.log("-----");
             // positions = [[x_0, y_0], [x_1,y_1], ... ]
             // do something with the positions ...
           }
           positionLoop();
+
+          var canvasInput = document.getElementById('drawCanvas');
+          var cc = canvasInput.getContext('2d');
+          function drawLoop() {
+            requestAnimationFrame(drawLoop);
+            cc.clearRect(0, 0, canvasInput.width, canvasInput.height);
+            ctracker.draw(canvasInput);
+          }
+          drawLoop();
       </script>
 </body>
 </html>
